@@ -116,5 +116,3 @@ Iremos avaliar desde a lógica, passando pelos testes, número de dependências 
 Gostaríamos que a solução contivesse as instruções de como ser executada localmente, além de ser deployada em algum serviço de hospedagem moderno como Heroku, AWS, Azure ou Digital Ocean. E claro, com a documentação para o uso da API, no formato desejado, podendo ser em markdown.
 
 Também lembramos que testes automatizados são muito importantes para nós, então mesmo que não esteja habituado com essa prática gostaríamos de ver testes, sejam unitários ou de integração.
-
-Não temos prazo para entrega. De qualquer maneira, se por algum motivo você não puder entregar o teste completo, fique à vontade para enviar, assim avaliaremos a parte entregue e consideraremos que a parte não entregue é opcional e não alguma falta de entendimento e/ou erro.
