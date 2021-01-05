@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_05_200901) do
+ActiveRecord::Schema.define(version: 2021_01_05_213156) do
 
   create_table "probes", force: :cascade do |t|
     t.integer "x_position", default: 0
@@ -18,6 +18,7 @@ ActiveRecord::Schema.define(version: 2021_01_05_200901) do
     t.integer "face", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "description"
   end
 
 end
