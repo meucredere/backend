@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_05_195711) do
+ActiveRecord::Schema.define(version: 2021_01_05_200901) do
 
   create_table "probes", force: :cascade do |t|
     t.integer "x_position", default: 0
