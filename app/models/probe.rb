@@ -1,6 +1,6 @@
 class Probe < ApplicationRecord
   def current_direction
-    directions = %w[R D L U]
+    directions = %w[D B E C]
 
     directions[face]
   end
@@ -21,13 +21,13 @@ class Probe < ApplicationRecord
 
   def move
     case current_direction
-    when 'R'
-      self.y_position += 1
     when 'D'
+      self.y_position += 1
+    when 'B'
       self.x_position -= 1
-    when 'L'
+    when 'E'
       self.y_position -= 1
-    when 'U'
+    when 'C'
       self.x_position += 1
     end
 
