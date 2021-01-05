@@ -1,0 +1,2 @@
+class ProbesController < ApplicationController
+end
