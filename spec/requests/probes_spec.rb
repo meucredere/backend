@@ -39,4 +39,19 @@ RSpec.describe 'Probes', type: :request do
       end
     end
   end
+
+  describe 'GET /probes/reset' do
+    before do
+      probe = Probe.last
+      probe.update_attributes(x_position: 2, y_position: 3, face: -1)
+    end
+
+    it 'should return the default values' do
+      get '/api/v1/probes/reset'
+      result = JSON.parse(response.body)
+      expect(result&.dig('x')).to eq(0)
+      expect(result&.dig('y')).to eq(0)
+      expect(result&.dig('face')).to eq('D')
+    end
+  end
 end
