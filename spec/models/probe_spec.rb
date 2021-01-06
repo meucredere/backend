@@ -18,4 +18,48 @@ RSpec.describe Probe, type: :model do
       expect(probe.current_direction).to eq('C')
     end
   end
+
+  context 'Test move' do
+    it 'should move one step to the right' do
+      probe = build(:probe)
+      probe.move
+
+      expect(probe.x_position).to eq(1)
+    end
+
+    context 'Turn left and move two times' do
+      it 'should move two steps up' do
+        probe = build(:probe)
+        probe.turn_left
+
+        probe.move
+        probe.move
+
+        expect(probe.y_position).to eq(2)
+      end
+    end
+
+    context 'Move more than 4 times' do
+      it 'should return false indicating an error' do
+        probe = build(:probe)
+        probe.move
+        probe.move
+        probe.move
+        probe.move
+        last_move = probe.move
+
+        expect(last_move).to eq(false)
+      end
+    end
+
+    context 'Turn right and move' do
+      it 'should return false indicating an error' do
+        probe = build(:probe)
+        probe.turn_right
+
+        last_move = probe.move
+        expect(last_move).to eq(false)
+      end
+    end
+  end
 end
