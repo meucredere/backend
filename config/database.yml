@@ -18,4 +18,4 @@ test:
 
 production:
   <<: *default
-  database: backend_production
+  database: <%= ENV['DATABASE_URL'] %>
