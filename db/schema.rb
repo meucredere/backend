@@ -12,6 +12,9 @@
 
 ActiveRecord::Schema.define(version: 2021_01_05_213156) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "probes", force: :cascade do |t|
     t.integer "x_position", default: 0
     t.integer "y_position", default: 0
