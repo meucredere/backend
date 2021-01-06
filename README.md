@@ -7,6 +7,20 @@ To setup the project you'll need this following technology and version:
 
 - Ruby - 2.7.0
 
+Do not forget to install this package:
+
+- libpq-dev
+- `sudo apt-get install libpq-dev`
+
+In the file config/database.yml change the username for the username that you use in your postgres database
+
+    default: &default
+        adapter: postgresql
+        pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+        timeout: 5000
+        host: localhost
+        username: postgres  <- HERE
+
 Now you can just clone this project and run:
 - `bundle install`
 - `rails db:create`
