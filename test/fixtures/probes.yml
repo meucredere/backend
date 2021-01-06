@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  x_position: 1
+  y_position: 1
+  face: 1
+
+two:
+  x_position: 1
+  y_position: 1
+  face: 1
