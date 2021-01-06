@@ -1,14 +1,5 @@
----
-title: 'Project documentation template'
-disqus: hackmd
----
-
 Backend Credere test
 ===
-
-## Table of Contents
-
-[TOC]
 
 ## Getting started
 
