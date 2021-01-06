@@ -123,3 +123,13 @@ To execute the unit tests just run:
 And all specs will be executed automatically.
 
 The specs were made with Rspec gem.
+
+Deployed app
+---
+
+You can access the deployed app with:
+- https://murmuring-bayou-05429.herokuapp.com/api/v1/probes/current_position
+- https://murmuring-bayou-05429.herokuapp.com/api/v1/probes/reset
+- https://murmuring-bayou-05429.herokuapp.com/api/v1/probes/move
+
+Remeber the last one request need to be a **POST**
