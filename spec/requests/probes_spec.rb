@@ -54,4 +54,19 @@ RSpec.describe 'Probes', type: :request do
       expect(result&.dig('face')).to eq('D')
     end
   end
+
+  describe 'GET /probes/current_position' do
+    before do
+      probe = Probe.last
+      probe.update_attributes(x_position: 2, y_position: 3, face: -1)
+    end
+
+    it 'should return the current values' do
+      get '/api/v1/probes/current_position'
+      result = JSON.parse(response.body)
+      expect(result&.dig('x')).to eq(2)
+      expect(result&.dig('y')).to eq(3)
+      expect(result&.dig('face')).to eq('C')
+    end
+  end
 end
