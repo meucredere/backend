@@ -54,7 +54,7 @@ module Api
             previous_movement = 'M'
 
             result = @probe.move
-            raise 'Um movimento inválido foi detectado, infelizmente a sonda ainda não possui a habilidade de #vvv' unless result
+            raise 'Um movimento inválido foi detectado, infelizmente a sonda não foi capaz de finalizar todos os movimentos' unless result
           when 'GE'
             previous_movement == 'GE' ? same_previous_time += 1 : same_previous_time = 1
             @probe.update_description('GE', previous_movement, same_previous_time)
