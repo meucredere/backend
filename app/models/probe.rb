@@ -1,4 +1,7 @@
 class Probe < ApplicationRecord
+  validates :x_position, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 4 }
+  validates :y_position, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 4 }
+
   def current_direction
     directions = %w[D B E C]
 
