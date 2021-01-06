@@ -1,118 +1,120 @@
-# Teste back-end - Credere
+---
+title: 'Project documentation template'
+disqus: hackmd
+---
 
-### Descrição
+Backend Credere test
+===
 
-Uma sonda exploradora da NASA pousou em marte. O pouso se deu em uma área retangular, na qual a sonda pode navegar usando uma interface web. A posição da sonda é representada pelo seu eixo x e y, e a direção que ele está apontado pela letra inicial, sendo as direções válidas:
+## Table of Contents
 
-- `E` - Esquerda
-- `D` - Direita
-- `C` - Cima
-- `B` - Baixo
+[TOC]
 
-A sonda aceita três comandos:
+## Getting started
 
-- `GE` - girar 90 graus à esquerda
-- `GD` - girar 90 graus à direta
-- `M` - movimentar. Para cada comando `M` a sonda se move uma posição na direção à qual sua face está apontada.
+To setup the project you'll need this following technology and version:
 
-A sonda inicia no quadrante (x = 0, y = 0), o que se traduz como a casa mais inferior da esquerda; também inicia com a face para a direita.
-Se pudéssemos visualizar a posição inicial, seria:
+- Ruby - 2.7.0
 
-| (0,4) |  (1,4) | (2,4) |  (3,4) | (4,4) |
-|:-----:|  ----  |  ---- |  ----  |  ---- |
-| (0,3) |  (1,3) | (2,3) |  (3,3) | (4,3) |
-| (0,2) |  (1,2) | (2,2) |  (3,2) | (4,2) |
-| (0,1) |  (1,1) | (2,1) |  (3,1) | (4,1) |
-| * >   |  (1,0) | (2,0) |  (3,0) | (4,0) |
+Now you can just clone this project and run:
+- `bundle install`
+- `rails db:create`
+- `rails db:migrate`
+- `rails s`
 
-`* Indica a direção inicial da nossa sonda`
+The last command will run the server in: http://localhost:3000
 
-A intenção é controlar a sonda enviando a direção e quantidade de movimentos que ela deve executar. A resposta deve ser sua coordenada final caso o ponto se encontre dentro do quadrante, caso o ponto não possa ser alcançado a resposta deve ser um erro indicando que a posição é inválida. Para a execução do teste as dimensões de 5x5 pode ser usado.
+API endpoints
+---
 
-### Endpoints
+**OBS: Remember to always use http://localhost:3000 and the complements below**
 
-Esperamos três endpoints, um que envie a sonda para a posição inicial (0,0); outro deve receber o movimento da sonda e responder com as coordenadas finais, caso o movimento seja válido ou erro caso o movimento seja inválido; e o terceiro deve responder apenas com as coordenadas atuais x e y da sonda.
+### GET /api/v1/probes/current_position
 
-Consideramos que um movimento para cima é o mesmo que dizer `(x + 1, y)` e um movimento para a direita é o mesmo que `(x, y + 1)`.
+This endpoint will return the probe current position something like that:
 
-Cada comando aceita uma série de movimentos que a sonda pode executar. Uma sugestão seria um endpoint que recebe um array com uma sequência de movimentos (mas essa é apenas uma sugestão, fique à vontade para usar outra abordagem caso você encontre um motivo prático para isso).
+    {
+        "x": 0,
+        "y": 0,
+        "face": "D"
+    }
 
-Exemplo:
+This return is an example if you request that endpoint after reseting the probe or just did not move it.
 
-```
-{
-  movimentos: ['GE', 'M', 'M', 'M', 'GD', 'M', 'M']
-}
-```
+### GET /api/v1/probes/reset
 
-A resposta deve ser:
+This endpoint will restore back the probe default values and return the current position
 
-```
-{
-  x: 2,
-  y: 3
-}
-```
+    {
+        "x": 0,
+        "y": 0,
+        "face": "D"
+    }
 
-E a descrição da sequência de movimentos:
+### POST /api/v1/probes/move
 
-```a sonda girou para a esquerda, se moveu 3 casas no eixo y, virou para a direita e andou mais duas casas no eixo x.```
+This endpoint will execute the movements that you requested and return the new positin with a brief description, examples:
 
-A visualização da posição após esses movimentos seria a seguinte:
+If you request:
 
-| (0,4) |  (1,4) | (2,4) |  (3,4) | (4,4) |
-| ----- |  ---- |:----:|  ---- | ---- |
-| (0,3) |  (1,3) |   >   |  (3,3) | (4,3) |
-| (0,2) |  (1,2) | (2,2) |  (3,2) | (4,2) |
-| (0,1) |  (1,1) | (2,1) |  (3,1) | (4,1) |
-| (0,0) |  (1,0) | (2,0) |  (3,0) | (4,0) |
+    {
+        "movimentos": ["M", "M", "M", "GE", "M", "M"]
+    }
+    
+Your return will be:
 
-**A visualização tem o intuíto de facilitar sua compreensão, ela não deve estar contida em nenhuma etapa do exercício e nem é necessária.**
+    {
+      "x": 3,
+      "y": 2,
+      "description": "A sonda moveu 3 casa(s) no eixo x, girou para a esquerda 1 veze(s) e moveu 2 casa(s) no eixo y"
+    }
+    
+But if you request the probe to move more than 4 steps or move beyond the limit, you will receive an error:
 
-Exemplos de movimento inválido seriam os seguintes:
+    {
+        "movimentos": ["M", "M", "M", "M", "M"]
+    }
+    
+or
 
-```
-{
-  movimentos: ['GD', 'M', 'M']
-}
-```
+    {
+        "movimentos": ["GD", "M"]
+    }
+    
+or
 
-ou
+    {
+        "movimentos": ["GE", "GE", "M"]
+    }
 
-```
-{
-  movimentos: ['M', 'M', 'M', 'M', 'M', 'M']
-}
-```
+**Obs: These last two examples we are considering the default values (after reset)**
 
-A resposta pode ser algo como:
+The return will be:
 
-```
-{
-  "erro": "Um movimento inválido foi detectado, infelizmente a sonda ainda não possui a habilidade de #vvv"
-}
-```
+    {
+        "erro": "Um movimento inválido foi detectado, infelizmente a sonda não foi capaz de finalizar todos os movimentos"
+    }
 
-O erro aconteceu porque no primeiro caso a sonda estava no ponto inicial e foi virada para a direção fora do limite do quadrante. No segundo caso a sonda ultrapassou o limite que era de cinco casas, tentando se mover para a posição y = 0, x= 6, passando do quadrante limite.  ~~Infelizmente nosso time de engenharia desenvolveu rodas muito sensíveis.~~
+But the probe will move until the limit it can move, example:
 
-O outro enpoint deve indicar a posição e retornar algo como:
+    {
+        "movimentos": ["M", "M", "M", "M", "M"]
+    }
 
-```
-{
-  x: 3,
-  y: 2,
-  face: E
-}
-```
+After that if you request for the current position you will receive:
 
-O enpoint de resetar a posição pode não ter retorno, apenas indicando que a ação foi bem sucedida pelo cabeçalho da requisição.
+    {
+        "x": 4,
+        "y": 0,
+        "face": "D"
+    }
 
-### Entrega
+Unit tests
+---
 
-É permitido fazer o teste em qualquer linguagem moderna de backend (C#, Javascript, Go, PHP, Python, Ruby, Java), assim como respectivos frameworks.
+To execute the unit tests just run:
+`rspec`
 
-Iremos avaliar desde a lógica, passando pelos testes, número de dependências e boas práticas, desde nomeclatura até o uso correto dos verbos HTTP.
+And all specs will be executed automatically.
 
-Gostaríamos que a solução contivesse as instruções de como ser executada localmente, além de ser deployada em algum serviço de hospedagem moderno como Heroku, AWS, Azure ou Digital Ocean. E claro, com a documentação para o uso da API, no formato desejado, podendo ser em markdown.
-
-Também lembramos que testes automatizados são muito importantes para nós, então mesmo que não esteja habituado com essa prática gostaríamos de ver testes, sejam unitários ou de integração.
+The specs were made with Rspec gem.
