@@ -12,7 +12,7 @@ module Api
           description: @probe.description
         }, status: 200
       rescue RuntimeError => e
-        render json: { erro: e.message }, status: 404
+        render json: { erro: e.message }, status: 400
       end
 
       def reset
