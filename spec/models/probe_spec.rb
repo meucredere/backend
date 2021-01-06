@@ -62,4 +62,19 @@ RSpec.describe Probe, type: :model do
       end
     end
   end
+
+  context 'Test reset' do
+    it 'should back the probe values to the default' do
+      probe = build(:probe)
+      probe.move
+
+      probe.turn_left
+      probe.move
+
+      probe.reset
+      expect(probe.x_position).to eq(0)
+      expect(probe.y_position).to eq(0)
+      expect(probe.current_direction).to eq('D')
+    end
+  end
 end
