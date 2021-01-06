@@ -11,12 +11,26 @@ RSpec.describe 'Probes', type: :request do
         post '/api/v1/probes/move', params: { movimentos: ['M'] }
         expect(Probe.last.x_position).to eq(1)
       end
+
+      it 'should return the new position' do
+        post '/api/v1/probes/move', params: { movimentos: ['M'] }
+        result = JSON.parse(response.body)
+        expect(result&.dig('x')).to eq(1)
+        expect(result&.dig('y')).to eq(0)
+        expect(result&.dig('description')).to eq('A sonda moveu 1 casa(s) no eixo x')
+      end
     end
 
     context 'when it has invalid movements' do
       it 'should return bad request' do
-        result = post '/api/v1/probes/move', params: { movimentos: %w[GD M] }
-        expect(result).to eq(400)
+        post '/api/v1/probes/move', params: { movimentos: %w[GD M] }
+        expect(response.code).to eq('400')
+      end
+
+      it 'should return an error' do
+        post '/api/v1/probes/move', params: { movimentos: %w[GD M] }
+        result = JSON.parse(response.body)
+        expect(result&.dig('erro')).to eq('Um movimento inválido foi detectado, infelizmente a sonda ainda não possui a habilidade de #vvv')
       end
 
       it 'should move the probe until the limit' do
